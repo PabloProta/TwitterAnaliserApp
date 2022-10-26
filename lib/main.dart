@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twitter_analiser_app/presentation/widgets/hate_section.dart';
+import 'package:twitter_analiser_app/presentation/hate_section/hate_section.dart';
 import 'package:twitter_analiser_app/presentation/option_section/options_section.dart';
 import 'package:twitter_analiser_app/presentation/widgets/twitter_section.dart';
 
