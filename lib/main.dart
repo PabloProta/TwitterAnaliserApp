@@ -5,6 +5,7 @@ import 'package:twitter_analiser_app/presentation/option_section/options_section
 import 'package:twitter_analiser_app/presentation/widgets/twitter_section.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(AppContainer());
 }
 

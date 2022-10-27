@@ -19,8 +19,8 @@ class MainController extends ChangeNotifier {
   final _apiRepository = TwitterAnaliserRepository();
 
   MainController() {
+    _apiRepository.saveAllData();
     _apiRepository.getCandidatos().then((value) {
-      log(value.toString());
       _candidatos.addAll(value);
       notifyListeners();
     }).catchError((Object obj) {
