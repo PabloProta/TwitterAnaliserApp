@@ -15,11 +15,7 @@ class _RegionsSectionWidgetState extends State<RegionsSectionWidget> {
     return DropdownButton(
       isExpanded: true,
       value: widget.controller.getRegion(),
-      items: const [
-        DropdownMenuItem(value: "sp", child: Text("São Paulo")),
-        DropdownMenuItem(value: "rj", child: Text("Rio de Janeiro")),
-        DropdownMenuItem(value: "ba", child: Text("Bahia")),
-      ],
+      items: widget.controller.getRegioes(),
       onChanged: ((value)  => widget.controller.setRegion(value!)),
     );
   }

@@ -15,11 +15,7 @@ class _PlataformsSectionWidgetState extends State<PlataformsSectionWidget> {
     return DropdownButton(
       isExpanded: true,
       value: widget.controller.getPlataform(),
-      items: const [
-        DropdownMenuItem(value: "android", child: Text("Android")),
-        DropdownMenuItem(value: "ios", child: Text("Ios")),
-        DropdownMenuItem(value: "web", child: Text("Internet")),
-      ],
+      items: widget.controller.getPlataformas(),
       onChanged: ((value) => widget.controller.setPlataform(value!)),
     );
   }

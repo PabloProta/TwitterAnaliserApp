@@ -15,11 +15,7 @@ class _CandidateSectionWidgetState extends State<CandidateSectionWidget> {
     return DropdownButton(
       isExpanded: true,
       value: widget.controller.getCandidate(),
-      items: const [
-        DropdownMenuItem(value: "bolsonaro", child: Text("Jair Bolsonaro")),
-        DropdownMenuItem(value: "lula", child: Text("Lula")),
-        DropdownMenuItem(value: "cirogomes", child: Text("Ciro Gomes")),
-      ],
+      items: widget.controller.getCandidatos(),
       onChanged: ((value) {
           widget.controller.setCandidate(value!);
       }),
