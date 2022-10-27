@@ -18,26 +18,69 @@ class TwitterAnaliserRepository {
   final String _regioesKey = "regioes";
   final String _plataformasKey = "plataformas";
 
-  Future<List<Politico>> getCandidatos() async {
-    log("getCandidatos");
-    var preferences = await _prefs;
-    var candidatos = preferences.getListString(_candidatosKey);
-
-    List<Politico> politicos = []; 
-    
-    candidatos?.forEach((value) {
-      Map<String, dynamic> decoded = jsonDecode(value);
-       politicos.add(Politico.fromJson(decoded));
-    });
-
-    return politicos;
-  }
-
   void saveAllData() {
     _saveCandidatosCache();
     _saveRegioesCache();
     _savePlataformsCache();
   }
+
+  Future<List<Politico>> getCandidatos() async {
+    log("getCandidatos");
+    var preferences = await _prefs;
+    var candidatos = preferences.getListString(_candidatosKey);
+
+    List<Politico> politicos = [];
+
+    candidatos?.forEach((value) {
+      Map<String, dynamic> decoded = jsonDecode(value);
+      politicos.add(Politico.fromJson(decoded));
+    });
+
+    if (politicos.isNotEmpty) {
+      return politicos;
+    } else {
+      return _client.getCandidatos();
+    }
+  }
+
+  
+
+  Future<List<Regiao>> getRegioes() async {
+    log("getRegioes");
+    var preferences = await _prefs;
+    var regioes = preferences.getListString(_regioesKey);
+
+    List<Regiao> regioesList = [];
+
+    regioes?.forEach((value) {
+      Map<String, dynamic> decoded = jsonDecode(value);
+      regioesList.add(Regiao.fromJson(decoded));
+    });
+
+    if(regioesList.isNotEmpty){
+      return regioesList;
+    }else{
+      return _client.getRegioes();
+    }
+  }
+
+  Future<List<Plataform>> getPlataformas() async {
+    log("getPlataformas");
+    var prefereces = await _prefs;
+    var plataformas = prefereces.getListString(_plataformasKey);
+    List<Plataform> plataformasList = [];
+
+    plataformas?.forEach((value) {
+      Map<String, dynamic> decoded = jsonDecode(value);
+      plataformasList.add(Plataform.fromJson(decoded));
+    });
+    if(plataformasList.isNotEmpty){
+      return plataformasList;
+    }else{
+      return _client.getPlataforms();
+    }
+  }
+
 
   void _saveCandidatosCache() async {
     log("saveCandidatosCache");
@@ -60,31 +103,16 @@ class TwitterAnaliserRepository {
     });
   }
 
-  Future<List<Regiao>> getRegioes() async{
-    log("getRegioes");
-    var preferences = await _prefs;
-    var regioes = preferences.getListString(_regioesKey);
-
-    List<Regiao> regioesList = [];
-
-    regioes?.forEach((value) { 
-      Map<String, dynamic> decoded = jsonDecode(value);
-      regioesList.add(Regiao.fromJson(decoded));
-    });
-
-    return regioesList;
-  }
-
-    void _saveRegioesCache() async {
-      log("saveRegioesCache");
-      MainPreferences? prefereces = await _prefs;
-      _client.getRegioes().then((value){
-          List<String> regioesList = [];
-          for(var regiao in value){
-            regioesList.add(jsonEncode(regiao.toJson()));
-          }
-          prefereces.setListString(_regioesKey,regioesList);
-      }).catchError((Object obj) {
+  void _saveRegioesCache() async {
+    log("saveRegioesCache");
+    MainPreferences? prefereces = await _prefs;
+    _client.getRegioes().then((value) {
+      List<String> regioesList = [];
+      for (var regiao in value) {
+        regioesList.add(jsonEncode(regiao.toJson()));
+      }
+      prefereces.setListString(_regioesKey, regioesList);
+    }).catchError((Object obj) {
       switch (obj.runtimeType) {
         case DioError:
           final res = (obj as DioError).response;
@@ -94,23 +122,10 @@ class TwitterAnaliserRepository {
           break;
       }
     });
-    }
-
-  Future<List<Plataform>> getPlataformas() async {
-    log("getPlataformas");
-    var prefereces = await _prefs;
-    var plataformas = prefereces.getListString(_plataformasKey);
-    List<Plataform> plataformasList = [];
-
-    plataformas?.forEach((value) {
-      Map<String,dynamic> decoded = jsonDecode(value);
-      plataformasList.add(Plataform.fromJson(decoded));
-     });
-    return plataformasList;
   }
 
   void _savePlataformsCache() async {
-       log("savePlataforms");
+    log("savePlataforms");
     MainPreferences? preferences = await _prefs;
     _client.getPlataforms().then((value) {
       List<String> plataformList = [];
