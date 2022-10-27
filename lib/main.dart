@@ -1,15 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:twitter_analiser_app/presentation/controller/main_controller.dart';
 import 'package:twitter_analiser_app/presentation/hate_section/hate_section.dart';
 import 'package:twitter_analiser_app/presentation/option_section/options_section.dart';
 import 'package:twitter_analiser_app/presentation/widgets/twitter_section.dart';
 
 void main() {
-  runApp(const AppContainre());
+  runApp(AppContainer());
 }
 
-class AppContainre extends StatelessWidget {
-  const AppContainre({super.key});
+class AppContainer extends StatelessWidget {
+  AppContainer({super.key});
 
+  final _controller = MainController();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
@@ -31,12 +33,16 @@ class AppContainre extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 4),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: const [
+                    children: [
                       Expanded(
-                        child: OptionsSectionWidget(),
+                        child: OptionsSectionWidget(
+                          controller: _controller,
+                        ),
                       ),
                       Expanded(
-                        child: HateSectionWidget(),
+                        child: HateSectionWidget(
+                          controller: _controller,
+                        ),
                       )
                     ],
                   ),
